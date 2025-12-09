@@ -1,0 +1,68 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "name": "Charlie Davis",
+      "email": "charlie@example.com",
+      "role": "user"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Getting Started with JSON Server",
+      "content": "JSON Server is a great tool for mocking REST APIs quickly.",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Why I love React",
+      "content": "React makes building user interfaces incredibly efficient.",
+      "userId": 2
+    },
+    {
+      "id": 3,
+      "title": "Top 10 CSS Tips",
+      "content": "Here are my favorite tips for writing clean CSS.",
+      "userId": 1
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "title": "Buy groceries",
+      "completed": false,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Finish project documentation",
+      "completed": true,
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "title": "Schedule dentist appointment",
+      "completed": false,
+      "userId": 2
+    },
+    {
+      "id": 4,
+      "title": "Pay utility bills",
+      "completed": false,
+      "userId": 3
+    }
+  ]
+}
