@@ -8,38 +8,72 @@ class Fetchify {
     };
 
     constructor(config) {
-        this.config = this.mergeConfig(config);
-        console.log(this.config)
+        this.config = this.#mergeConfig(config);
     }
 
-    dispatchRequest({ url, config }) {
-        const finalConfig = this.mergeConfig(config)
+    async #dispatchRequest({ url, config }) {
+        const finalConfig = this.#mergeConfig(config)
+        // console.log("finalConfig", finalConfig)
 
-        return fetch(`${this.config.baseURL}${url}`, finalConfig)
+        const abortController = new AbortController()
+
+        // Though timeout will always be available, keeping 0 as a final safety net
+        const timeout = finalConfig.timeout || 0
+
+        let timeoutId;
+
+        if (timeout) {
+            // console.log("timeout", timeout)
+            timeoutId = setTimeout(() => {
+                abortController.abort()
+            }, timeout)
+        }
+
+        try {
+            const response = await fetch(
+                `${this.config.baseURL}${url}`,
+                {
+                    ...finalConfig,
+                    signal: abortController.signal
+                }
+            )
+
+            return response
+        } catch (error) {
+            console.error('Fetch error:', error);
+            throw error; 
+        }
+        finally {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
+        }
     }
 
     async get(url, config) {
-        return this.dispatchRequest({
+        return this.#dispatchRequest({
             url,
             config: {
                 ...config,
                 method: 'GET'
-        }})
+            }
+        })
     }
 
     async post(url, config) {
-        return this.dispatchRequest({
+        return this.#dispatchRequest({
             url,
             config: {
                 ...config,
                 method: 'POST'
-        }})
+            }
+        })
     }
 
-    mergeConfig(config) {
+    #mergeConfig(config) {
         return {
             ...this.config,
-            ...config, 
+            ...config,
             headers: {
                 ...(this.config.headers || {}),
                 ...(config?.headers || {}),

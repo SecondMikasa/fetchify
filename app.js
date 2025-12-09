@@ -17,13 +17,10 @@ const api = fetchify.create({
 
 async function main() {
     const response = await api.get('/todos', {
-        headers: {
-            'Content-Type': 'application/xml',
-            'x-idempotency-key': 'secret-key'
-        }
+        timeout: 200
     });
-    const data = await response.json();
 
+    const data = await response.json();
     console.log(data);
 }
 
