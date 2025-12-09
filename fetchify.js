@@ -1,6 +1,7 @@
 class Fetchify {
     config = {
         // Setting default values if not provided by user
+        timeout: 1000,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -11,14 +12,28 @@ class Fetchify {
         console.log(this.config)
     }
 
-    async get(url, config) {
-        console.log("config", config)
-        console.log("this.config", this.config)
-
+    dispatchRequest({ url, config }) {
         const finalConfig = this.mergeConfig(config)
-        console.log("finalConfig", finalConfig)
 
         return fetch(`${this.config.baseURL}${url}`, finalConfig)
+    }
+
+    async get(url, config) {
+        return this.dispatchRequest({
+            url,
+            config: {
+                ...config,
+                method: 'GET'
+        }})
+    }
+
+    async post(url, config) {
+        return this.dispatchRequest({
+            url,
+            config: {
+                ...config,
+                method: 'POST'
+        }})
     }
 
     mergeConfig(config) {
